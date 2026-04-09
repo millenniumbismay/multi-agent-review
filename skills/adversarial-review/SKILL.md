@@ -1,0 +1,165 @@
+---
+name: adversarial-review
+description: Adversarial debate pipeline for code review — dispatches Critic, Tester, and Advocate agents in parallel, then a Judge classifies findings and the user resolves disputes interactively
+---
+
+# Adversarial Review
+
+Review code changes through an adversarial debate. Three agents analyze changes from opposing perspectives (Critic finds issues, Tester writes adversarial tests, Advocate defends the design), then a Judge synthesizes findings and you resolve any disputes interactively.
+
+## Invocation
+
+The user provides a brief description of the changes:
+```
+/adversarial-review "Added auth middleware for API routes"
+```
+
+The description is available as the argument passed to this skill.
+
+## Step 1: Gather Context
+
+Run the following commands to collect the review context:
+
+1. Detect the base branch:
+```bash
+git remote show origin 2>/dev/null | grep 'HEAD branch' | awk '{print $NF}'
+```
+If this fails (no remote), fall back to `main`, then `master`.
+
+2. Collect the diff:
+```bash
+git diff <BASE_BRANCH>...HEAD
+```
+
+3. Collect the changed file list:
+```bash
+git diff --name-only <BASE_BRANCH>...HEAD
+```
+
+4. Read the full content of each changed file using the Read tool.
+
+**If the diff is empty** (no changes vs base branch), ask the user which files to review. Then read those files and use their full content as the context (skip the diff).
+
+## Step 2: Prepare Agent Prompts
+
+Read each prompt template file in this skill's directory:
+- `critic-prompt.md`
+- `tester-prompt.md`
+- `advocate-prompt.md`
+
+For each template, substitute these placeholders with the gathered context:
+- `{DESCRIPTION}` → the user's description from invocation
+- `{FILE_LIST}` → the changed file list
+- `{DIFF}` → the full git diff
+- `{CHANGED_FILES_CONTENT}` → the full content of each changed file
+
+## Step 3: Dispatch Parallel Agents
+
+Dispatch all three agents in a SINGLE message so they run concurrently:
+
+```
+Agent(description: "Critic Agent", prompt: <filled critic-prompt>)
+Agent(description: "Tester Agent", prompt: <filled tester-prompt>)
+Agent(description: "Advocate Agent", prompt: <filled advocate-prompt>)
+```
+
+**Important:**
+- Critic and Advocate are read-only — they analyze and report, they do not modify files
+- Tester writes and runs tests in `tests/adversarial/` — this is expected
+- All three MUST be dispatched in a single message for parallel execution
+
+Wait for all three agents to return their outputs.
+
+## Step 4: Dispatch Judge Agent
+
+Read `judge-prompt.md` and substitute:
+- `{DESCRIPTION}` → the user's description
+- `{CRITIC_OUTPUT}` → the full output from the Critic agent
+- `{TESTER_OUTPUT}` → the full output from the Tester agent
+- `{ADVOCATE_OUTPUT}` → the full output from the Advocate agent
+
+Dispatch the Judge agent:
+```
+Agent(description: "Judge Agent", prompt: <filled judge-prompt>)
+```
+
+Wait for the Judge to return its classified output.
+
+## Step 5: Interactive Dispute Resolution
+
+Parse the Judge's output for **Disputed** items. For each disputed item, present to the user:
+
+```
+---
+**DISPUTED: [Issue title]**
+
+**CRITIC says:** [Critic's argument with evidence]
+
+**ADVOCATE says:** [Advocate's counter-argument with evidence]
+
+**TESTER result:** [Relevant test results, if any]
+
+→ What's your call?
+  (a) Valid concern — add to checklist
+  (b) Resolved — Advocate's reasoning holds
+  (c) Needs investigation — keep flagged but don't block
+---
+```
+
+Wait for the user's response on EACH disputed item before presenting the next one. Record each decision and the user's reasoning.
+
+If there are no disputed items, skip this step and tell the user: "No disputed items — all findings were either confirmed or resolved by design."
+
+## Step 6: Generate Final Output
+
+### Terminal Summary
+
+Print a summary to the terminal:
+
+```
+## Adversarial Review Summary
+
+**Changes reviewed:** [user's description]
+**Files analyzed:** [count]
+
+| Category | Count |
+|----------|-------|
+| Confirmed Issues | X (Y critical, Z major, W minor) |
+| Resolved by Design | X |
+| Disputed → Valid | X |
+| Disputed → Resolved | X |
+| Disputed → Investigate | X |
+| New Findings | X |
+| Tests Written | X |
+| Tests Passed | X |
+| Tests Failed | X |
+
+## Action Checklist
+
+- [ ] [CRITICAL] Description (file:line)
+- [ ] [MAJOR] Description (file:line)
+- [ ] [INVESTIGATE] Description (file:line)
+- [ ] [NEW] Description (file:line)
+- [x] [RESOLVED] Description — reason
+```
+
+### Full Report
+
+1. Create `docs/reviews/` directory if it doesn't exist
+2. Check if `docs/reviews/` is in `.gitignore`. If not, append `docs/reviews/` to `.gitignore`
+3. Write the full report to `docs/reviews/YYYY-MM-DD-adversarial-review.md` containing:
+   - The user's change description
+   - Full Critic output
+   - Full Tester output (including test file locations)
+   - Full Advocate output
+   - Full Judge classification
+   - User decisions on disputed items with their reasoning
+   - Final checklist
+
+Tell the user: "Full report saved to `docs/reviews/YYYY-MM-DD-adversarial-review.md`. Test files are in `tests/adversarial/`."
+
+## Edge Cases
+
+- **No git remote:** Fall back to `main` then `master` as base branch
+- **No test framework detected:** Tester agent will report this — relay to user and ask what framework to use. If the user provides one, note it for the report but do not re-run (the Tester's analysis is still valuable)
+- **Very large diff:** If the diff exceeds reasonable size, suggest the user narrow scope to specific files
