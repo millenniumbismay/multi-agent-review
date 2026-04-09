@@ -1,0 +1,16 @@
+{
+  "name": "adversarial-review",
+  "description": "Adversarial debate pipeline for code review — Critic, Tester, and Advocate agents debate changes while a Judge produces an actionable checklist",
+  "version": "0.1.0",
+  "author": {
+    "name": "mbismay"
+  },
+  "license": "MIT",
+  "keywords": [
+    "code-review",
+    "adversarial",
+    "debate",
+    "testing",
+    "quality"
+  ]
+}
