@@ -1,4 +1,32 @@
 {
   "name": "multi-agent-review",
-  "version": "0.1.0"
+  "version": "0.1.0",
+  "description": "Adversarial debate pipeline for code review — Critic, Tester, and Advocate agents debate changes while a Judge produces an actionable checklist",
+  "bin": {
+    "multi-agent-review": "./bin/install.mjs"
+  },
+  "files": [
+    "bin/",
+    "skills/",
+    "commands/",
+    ".claude-plugin/",
+    "CLAUDE.md",
+    "README.md",
+    "LICENSE"
+  ],
+  "keywords": [
+    "claude-code",
+    "claude-code-plugin",
+    "code-review",
+    "adversarial",
+    "multi-agent",
+    "ai"
+  ],
+  "author": "mbismay",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/millenniumbismay/multi-agent-review"
+  },
+  "homepage": "https://github.com/millenniumbismay/multi-agent-review"
 }

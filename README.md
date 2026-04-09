@@ -28,6 +28,14 @@ A **Judge** then cross-references all three, identifies where they agree and dis
 
 ## Install
 
+**Via npx (easiest):**
+
+```bash
+npx multi-agent-review
+```
+
+**Via Claude Code plugin manager:**
+
 ```bash
 claude plugin add millenniumbismay/multi-agent-review
 ```
