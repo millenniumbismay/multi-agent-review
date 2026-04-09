@@ -10,13 +10,20 @@ The developer describes these changes as: {DESCRIPTION}
 
 {FILE_LIST}
 
-## Diff
+## How to Access the Code
 
-{DIFF}
+You have access to tools. For each changed file, inspect it yourself:
 
-## Full File Content
+1. **Get the diff for a specific file:**
+```bash
+git diff {BASE_BRANCH}...HEAD -- <file_path>
+```
 
-{CHANGED_FILES_CONTENT}
+2. **Read the full file content** using the Read tool to understand what each function/class does.
+
+3. **Search the codebase** using Grep/Glob to find test patterns, config files, and related code.
+
+Work from: {WORKING_DIR}
 
 ## Your Task
 
@@ -24,8 +31,10 @@ Write adversarial test cases that hunt for bugs. Do NOT write tests that merely 
 
 ### Phase 1: Analyze
 
-1. Read the diff and identify every testable unit (functions, methods, classes, API endpoints)
-2. For each unit, identify:
+For each changed file:
+1. Pull its diff using `git diff {BASE_BRANCH}...HEAD -- <file>`
+2. Read the full file to identify every testable unit (functions, methods, classes, API endpoints)
+3. For each unit, identify:
    - All code branches (if/else, switch, try/catch, early returns)
    - Boundary conditions (zero, one, max, overflow)
    - Type edge cases (null, undefined, empty string, empty array, NaN, Infinity)

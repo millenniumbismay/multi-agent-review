@@ -26,19 +26,16 @@ git remote show origin 2>/dev/null | grep 'HEAD branch' | awk '{print $NF}'
 ```
 If this fails (no remote), fall back to `main`, then `master`.
 
-2. Collect the diff:
-```bash
-git diff <BASE_BRANCH>...HEAD
-```
-
-3. Collect the changed file list:
+2. Collect the changed file list:
 ```bash
 git diff --name-only <BASE_BRANCH>...HEAD
 ```
 
-4. Read the full content of each changed file using the Read tool.
+3. Store the base branch name — agents will need it to pull diffs themselves.
 
-**If the diff is empty** (no changes vs base branch), ask the user which files to review. Then read those files and use their full content as the context (skip the diff).
+**If the file list is empty** (no changes vs base branch), ask the user which files to review.
+
+**Do NOT collect the full diff or read file contents.** Agents will pull diffs and read files themselves, one file at a time, to avoid context overflow.
 
 ## Step 2: Prepare Agent Prompts
 
@@ -50,8 +47,8 @@ Read each prompt template file in this skill's directory:
 For each template, substitute these placeholders with the gathered context:
 - `{DESCRIPTION}` → the user's description from invocation
 - `{FILE_LIST}` → the changed file list
-- `{DIFF}` → the full git diff
-- `{CHANGED_FILES_CONTENT}` → the full content of each changed file
+- `{BASE_BRANCH}` → the detected base branch name
+- `{WORKING_DIR}` → the absolute path to the project root
 
 ## Step 3: Dispatch Parallel Agents
 
@@ -162,4 +159,4 @@ Tell the user: "Full report saved to `docs/reviews/YYYY-MM-DD-adversarial-review
 
 - **No git remote:** Fall back to `main` then `master` as base branch
 - **No test framework detected:** Tester agent will report this — relay to user and ask what framework to use. If the user provides one, note it for the report but do not re-run (the Tester's analysis is still valuable)
-- **Very large diff:** If the diff exceeds reasonable size, suggest the user narrow scope to specific files
+- **Very large number of changed files:** If more than 20 files changed, suggest the user narrow scope to specific files

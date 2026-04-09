@@ -10,17 +10,30 @@ The developer describes these changes as: {DESCRIPTION}
 
 {FILE_LIST}
 
-## Diff
+## How to Access the Code
 
-{DIFF}
+You have access to tools. For each changed file, inspect it yourself:
 
-## Full File Content
+1. **Get the diff for a specific file:**
+```bash
+git diff {BASE_BRANCH}...HEAD -- <file_path>
+```
 
-{CHANGED_FILES_CONTENT}
+2. **Read the full file content** using the Read tool to understand upstream/downstream context.
+
+3. **Search the codebase** using Grep to find callers, consumers, or related code.
+
+Work from: {WORKING_DIR}
 
 ## Your Task
 
 Analyze these changes with deep skepticism. You must find concrete, evidence-backed issues — not hypothetical "what if" scenarios. Every issue you raise must have a plausible trigger path in real usage.
+
+**For each changed file:**
+1. Pull its diff using `git diff {BASE_BRANCH}...HEAD -- <file>`
+2. Read the full file to understand context beyond the diff
+3. Search for callers/consumers to assess upstream impact
+4. Search for dependencies to assess downstream impact
 
 **Analyze for:**
 

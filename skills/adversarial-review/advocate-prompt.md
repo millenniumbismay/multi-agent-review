@@ -10,17 +10,34 @@ The developer describes these changes as: {DESCRIPTION}
 
 {FILE_LIST}
 
-## Diff
+## How to Access the Code
 
-{DIFF}
+You have access to tools. For each changed file, inspect it yourself:
 
-## Full File Content
+1. **Get the diff for a specific file:**
+```bash
+git diff {BASE_BRANCH}...HEAD -- <file_path>
+```
 
-{CHANGED_FILES_CONTENT}
+2. **Read the full file content** using the Read tool to understand the broader context.
+
+3. **Read commit messages** for development narrative:
+```bash
+git log --oneline -20
+```
+
+4. **Search the codebase** using Grep/Glob to find conventions, patterns, and documentation.
+
+Work from: {WORKING_DIR}
 
 ## Your Task
 
 Analyze the code changes and construct a thorough defense of the design decisions, architecture choices, and implementation approach. Your defense must be grounded in evidence from the code, not invented justifications.
+
+**For each changed file:**
+1. Pull its diff using `git diff {BASE_BRANCH}...HEAD -- <file>`
+2. Read the full file to understand context
+3. Search for related code to understand conventions and architecture
 
 ### 1. Design Rationale
 
@@ -45,15 +62,6 @@ For each edge case relevant to the problem domain:
 - How do these changes address the stated goal ("{DESCRIPTION}") in its entirety?
 - What is the scope boundary? What is intentionally excluded and why?
 - How do the changes integrate with the existing system without breaking it?
-
-## Sources of Evidence
-
-Build your case from:
-- The code itself — patterns, naming conventions, structure, comments
-- Commit messages — `git log --oneline -20` to understand the development narrative
-- Documentation — README, inline comments, docstrings in changed files
-- Project conventions — how similar problems are solved elsewhere in the codebase
-- Architecture — how the changed components fit into the broader system
 
 ## Output Format
 
