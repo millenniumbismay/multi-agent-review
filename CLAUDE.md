@@ -2,13 +2,13 @@
 
 ## Structure
 
-This plugin provides a single skill (`adversarial-review`) with four prompt templates:
+This plugin provides a single skill (`multi-agent-review`) with four prompt templates:
 
-- `skills/adversarial-review/SKILL.md` — Orchestrator
-- `skills/adversarial-review/critic-prompt.md` — Critic agent
-- `skills/adversarial-review/tester-prompt.md` — Tester agent
-- `skills/adversarial-review/advocate-prompt.md` — Advocate agent
-- `skills/adversarial-review/judge-prompt.md` — Judge agent
+- `skills/multi-agent-review/SKILL.md` — Orchestrator
+- `skills/multi-agent-review/critic-prompt.md` — Critic agent
+- `skills/multi-agent-review/tester-prompt.md` — Tester agent
+- `skills/multi-agent-review/advocate-prompt.md` — Advocate agent
+- `skills/multi-agent-review/judge-prompt.md` — Judge agent
 
 ## Modifying Prompts
 

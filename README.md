@@ -41,17 +41,17 @@ After installing, reload plugins:
 ## Usage
 
 ```
-/adversarial-review "brief description of your changes"
+/multi-agent-review "brief description of your changes"
 ```
 
 The description helps agents understand the intent behind your changes. Be specific:
 
 ```
 # Good — agents understand what to look for
-/adversarial-review "Added rate limiting middleware to the /api/upload endpoint"
+/multi-agent-review "Added rate limiting middleware to the /api/upload endpoint"
 
 # Too vague — agents have less context
-/adversarial-review "some changes"
+/multi-agent-review "some changes"
 ```
 
 ### What happens when you run it
@@ -94,7 +94,7 @@ The description helps agents understand the intent behind your changes. Be speci
 | Output | Location | Committed? |
 |--------|----------|------------|
 | Terminal summary | Printed in conversation | N/A |
-| Full report | `docs/reviews/YYYY-MM-DD-adversarial-review.md` | No (gitignored) |
+| Full report | `docs/reviews/YYYY-MM-DD-multi-agent-review.md` | No (gitignored) |
 | Adversarial tests | `tests/adversarial/` | Up to you |
 
 The full report contains every agent's complete output, the Judge's cross-reference analysis, your decisions on disputed items, and the final checklist.

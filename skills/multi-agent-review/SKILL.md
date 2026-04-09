@@ -1,5 +1,5 @@
 ---
-name: adversarial-review
+name: multi-agent-review
 description: Adversarial debate pipeline for code review — dispatches Critic, Tester, and Advocate agents in parallel, then a Judge classifies findings and the user resolves disputes interactively
 ---
 
@@ -11,7 +11,7 @@ Review code changes through an adversarial debate. Three agents analyze changes 
 
 The user provides a brief description of the changes:
 ```
-/adversarial-review "Added auth middleware for API routes"
+/multi-agent-review "Added auth middleware for API routes"
 ```
 
 The description is available as the argument passed to this skill.
@@ -145,7 +145,7 @@ Print a summary to the terminal:
 
 1. Create `docs/reviews/` directory if it doesn't exist
 2. Check if `docs/reviews/` is in `.gitignore`. If not, append `docs/reviews/` to `.gitignore`
-3. Write the full report to `docs/reviews/YYYY-MM-DD-adversarial-review.md` containing:
+3. Write the full report to `docs/reviews/YYYY-MM-DD-multi-agent-review.md` containing:
    - The user's change description
    - Full Critic output
    - Full Tester output (including test file locations)
@@ -154,7 +154,7 @@ Print a summary to the terminal:
    - User decisions on disputed items with their reasoning
    - Final checklist
 
-Tell the user: "Full report saved to `docs/reviews/YYYY-MM-DD-adversarial-review.md`. Test files are in `tests/adversarial/`."
+Tell the user: "Full report saved to `docs/reviews/YYYY-MM-DD-multi-agent-review.md`. Test files are in `tests/adversarial/`."
 
 ## Edge Cases
 
