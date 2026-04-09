@@ -1,5 +1,7 @@
 # Multi-Agent Adversarial Review
 
+[![npm version](https://img.shields.io/npm/v/multi-agent-review)](https://www.npmjs.com/package/multi-agent-review)
+
 A Claude Code plugin that reviews code changes through an adversarial debate pipeline. Three AI agents argue over your code from opposing perspectives, then a judge synthesizes their findings into an actionable checklist.
 
 ## Why Use This?
@@ -28,22 +30,48 @@ A **Judge** then cross-references all three, identifies where they agree and dis
 
 ## Install
 
-**Via npx (easiest):**
+Pick whichever method suits you. All three install the same plugin.
+
+**Option 1: npx (easiest)**
 
 ```bash
 npx multi-agent-review
 ```
 
-**Via Claude Code plugin manager:**
+This downloads the package from npm, runs the installer, and registers the plugin with Claude Code automatically.
+
+**Option 2: Claude Code plugin manager**
 
 ```bash
 claude plugin add millenniumbismay/multi-agent-review
 ```
 
-After installing, reload plugins:
+**Option 3: Manual / local install**
+
+Clone the repo and register it as a local plugin marketplace:
+
+```bash
+git clone https://github.com/millenniumbismay/multi-agent-review.git
+claude plugin marketplace add /path/to/multi-agent-review
+claude plugin install multi-agent-review
+```
+
+---
+
+After installing via any method, reload plugins in Claude Code:
 
 ```
 /reload-plugins
+```
+
+### Verify installation
+
+Run `/multi-agent-review` in Claude Code. If it prompts for a change description, you're set.
+
+### Uninstall
+
+```bash
+claude plugin remove multi-agent-review
 ```
 
 ## Usage
