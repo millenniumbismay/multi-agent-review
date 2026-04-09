@@ -55,14 +55,15 @@ For each template, substitute these placeholders with the gathered context:
 Dispatch all three agents in a SINGLE message so they run concurrently:
 
 ```
-Agent(description: "Critic Agent", prompt: <filled critic-prompt>)
-Agent(description: "Tester Agent", prompt: <filled tester-prompt>)
-Agent(description: "Advocate Agent", prompt: <filled advocate-prompt>)
+Agent(subagent_type: "general-purpose", description: "Critic Agent", prompt: <filled critic-prompt>)
+Agent(subagent_type: "general-purpose", description: "Tester Agent", prompt: <filled tester-prompt>)
+Agent(subagent_type: "general-purpose", description: "Advocate Agent", prompt: <filled advocate-prompt>)
 ```
 
 **Important:**
-- Critic and Advocate are read-only — they analyze and report, they do not modify files
-- Tester writes and runs tests in `tests/adversarial/` — this is expected
+- All agents MUST be dispatched as `general-purpose` type — they need full tool access (Bash, Read, Write, Grep, Glob) to pull diffs, read files, search code, and run tests
+- Critic and Advocate use Read/Bash/Grep to analyze — they do not modify project files
+- Tester uses Read/Write/Bash to write and run tests in `tests/adversarial/`
 - All three MUST be dispatched in a single message for parallel execution
 
 Wait for all three agents to return their outputs.

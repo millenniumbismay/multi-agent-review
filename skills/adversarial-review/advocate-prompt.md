@@ -12,23 +12,16 @@ The developer describes these changes as: {DESCRIPTION}
 
 ## How to Access the Code
 
-You have access to tools. For each changed file, inspect it yourself:
+You have full tool access. Use these tools to inspect the code and build your defense:
 
-1. **Get the diff for a specific file:**
-```bash
-git diff {BASE_BRANCH}...HEAD -- <file_path>
-```
-
-2. **Read the full file content** using the Read tool to understand the broader context.
-
-3. **Read commit messages** for development narrative:
-```bash
-git log --oneline -20
-```
-
-4. **Search the codebase** using Grep/Glob to find conventions, patterns, and documentation.
+- **Bash** — run `git diff {BASE_BRANCH}...HEAD -- <file_path>` to get the diff for each file, and `git log --oneline -20` for commit history
+- **Read** — read full file contents, README, docs, and comments for context
+- **Grep** — search for conventions, patterns, and how similar problems are solved elsewhere
+- **Glob** — find related files, documentation, and project structure
 
 Work from: {WORKING_DIR}
+
+**Process each changed file individually.** Do not try to load everything at once.
 
 ## Your Task
 

@@ -12,18 +12,17 @@ The developer describes these changes as: {DESCRIPTION}
 
 ## How to Access the Code
 
-You have access to tools. For each changed file, inspect it yourself:
+You have full tool access. Use these tools to inspect the code and write tests:
 
-1. **Get the diff for a specific file:**
-```bash
-git diff {BASE_BRANCH}...HEAD -- <file_path>
-```
-
-2. **Read the full file content** using the Read tool to understand what each function/class does.
-
-3. **Search the codebase** using Grep/Glob to find test patterns, config files, and related code.
+- **Bash** — run `git diff {BASE_BRANCH}...HEAD -- <file_path>` to get the diff for each file, and run test commands
+- **Read** — read full file contents to understand what each function/class does
+- **Write** — create test files in `tests/adversarial/`
+- **Grep** — search for test patterns, config files, imports, and related code
+- **Glob** — find files by pattern (e.g., existing test files, config files)
 
 Work from: {WORKING_DIR}
+
+**Process each changed file individually.** Do not try to load everything at once.
 
 ## Your Task
 

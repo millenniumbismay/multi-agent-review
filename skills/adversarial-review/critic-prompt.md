@@ -12,18 +12,16 @@ The developer describes these changes as: {DESCRIPTION}
 
 ## How to Access the Code
 
-You have access to tools. For each changed file, inspect it yourself:
+You have full tool access. Use these tools to inspect the code yourself, one file at a time:
 
-1. **Get the diff for a specific file:**
-```bash
-git diff {BASE_BRANCH}...HEAD -- <file_path>
-```
-
-2. **Read the full file content** using the Read tool to understand upstream/downstream context.
-
-3. **Search the codebase** using Grep to find callers, consumers, or related code.
+- **Bash** — run `git diff {BASE_BRANCH}...HEAD -- <file_path>` to get the diff for each file
+- **Read** — read full file contents to understand context beyond the diff
+- **Grep** — search the codebase for callers, consumers, imports, and related code
+- **Glob** — find files by pattern (e.g., find all files importing a changed module)
 
 Work from: {WORKING_DIR}
+
+**Process each changed file individually.** Do not try to load everything at once.
 
 ## Your Task
 
